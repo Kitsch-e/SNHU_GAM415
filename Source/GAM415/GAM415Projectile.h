@@ -22,9 +22,32 @@ class AGAM415Projectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* ballMesh;
+
+	// base material for the decal
+	UPROPERTY(EditAnywhere)
+	UMaterial* SplatterMat;
+
+	// color of the projectile
+	UPROPERTY()
+	FLinearColor projColor;
+
+	// material which overrides projectile's set material
+	UPROPERTY(EditAnywhere)
+	UMaterialInterface* projMat;
+
+	// dynamic material instance for projectile
+	UPROPERTY()
+	UMaterialInstanceDynamic* projDMIMat;
+
 public:
 	AGAM415Projectile();
 
+protected:
+	virtual void BeginPlay();
+
+public:
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
