@@ -41,7 +41,7 @@ AGAM415Projectile::AGAM415Projectile()
 	InitialLifeSpan = 3.0f;
 }
 
-void AGAM415Projectile::BeginPLay()
+void AGAM415Projectile::BeginPlay()
 {
 	Super::BeginPlay();
 

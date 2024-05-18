@@ -45,7 +45,7 @@ public:
 	AGAM415Projectile();
 
 protected:
-	virtual void BeginPLay();
+	virtual void BeginPlay();
 
 public:
 	/** called when projectile hits something */
