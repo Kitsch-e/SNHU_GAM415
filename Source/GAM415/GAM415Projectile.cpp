@@ -45,24 +45,16 @@ void AGAM415Projectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*
-	// floats to select a random color
-	float ranNumX = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-	float ranNumY = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-	float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-	*/
-
-	// 4Vector with radom values for HSV and full alpha
-	//randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
-	//projColor = FLinearColor(ranNumX, ranNumY, ranNumZ, 1.f);
-
+	// 4Vector with radom values for RGB and full alpha
 	projColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
 
 	// sets up the dynamic material to use the projMat
 	projDMIMat = UMaterialInstanceDynamic::Create(projMat, this);
 
+	// assigns random color to our material parameter
 	projDMIMat->SetVectorParameterValue("ProjColor", projColor);
 
+	// changes projectile mesh's material to the DMI
 	ballMesh->SetMaterial(0, projDMIMat);
 }
 
@@ -78,20 +70,11 @@ void AGAM415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	if (OtherActor != nullptr)
 	{
-		/* no longer needed, called from BeginPlay()
-		// floats to select a random color
-		float ranNumX = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-		float ranNumY = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
-
-		FVector4 randColor = FVector4(ranNumX, ranNumY, ranNumZ, 1.f);
-		*/
-
 		// float that selects which decal to use
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
 		// (world, material, size of decal, location, rotation, lifespan (0 = forever)
-		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), SplatterMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 3.f);
+		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), splatterMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 3.f);
 		auto MatInstance = Decal->CreateDynamicMaterialInstance();
 
 		// uses the same random color that the projectile uses

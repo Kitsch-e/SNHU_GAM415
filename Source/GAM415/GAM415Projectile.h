@@ -22,12 +22,13 @@ class AGAM415Projectile : public AActor
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 
+	// projectile mesh
 	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* ballMesh;
 
 	// base material for the decal
 	UPROPERTY(EditAnywhere)
-	UMaterial* SplatterMat;
+	UMaterial* splatterMat;
 
 	// color of the projectile
 	UPROPERTY()
