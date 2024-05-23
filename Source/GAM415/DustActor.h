@@ -5,18 +5,18 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
-#include "CubeDMIClass.generated.h"
+#include "DustActor.generated.h"
 
 class UNiagaraSystem;
 
 UCLASS()
-class GAM415_API ACubeDMIClass : public AActor
+class GAM415_API ADustActor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACubeDMIClass();
+	ADustActor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -27,23 +27,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-		UBoxComponent* boxComp;
-
-	UPROPERTY(EditAnywhere)
-		UStaticMeshComponent* cubeMesh;
-
-	// base material to create DMI
-	UPROPERTY(EditAnywhere)
-		UMaterialInterface* baseMat;
-
-	// overides material into DMI
-	UPROPERTY()
-		UMaterialInstanceDynamic* dmiMat;
+	UBoxComponent* collisionBoxComp;
 
 	// property for the niagara particles
 	UPROPERTY(EditAnywhere)
-	UNiagaraSystem* colorP;
+	UNiagaraSystem* dustP;
 
 	UFUNCTION()
-		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 };

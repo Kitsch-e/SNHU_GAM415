@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class UNiagaraSystem;
 
 UCLASS(config=Game)
 class AGAM415Projectile : public AActor
@@ -41,6 +42,10 @@ class AGAM415Projectile : public AActor
 	// dynamic material instance for projectile
 	UPROPERTY()
 	UMaterialInstanceDynamic* projDMIMat;
+
+	// property for the niagara particles
+	UPROPERTY(EditAnywhere)
+	UNiagaraSystem* colorP;
 
 public:
 	AGAM415Projectile();
