@@ -4,6 +4,8 @@
 #include "CubeDMIClass.h"
 #include "GAM415Character.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 
 // Sets default values
 ACubeDMIClass::ACubeDMIClass()
@@ -53,7 +55,6 @@ void ACubeDMIClass::Tick(float DeltaTime)
 
 void ACubeDMIClass::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
 	// assign overlappedActor to player character
 	AGAM415Character* overlappedActor = Cast<AGAM415Character>(OtherActor);
 
@@ -65,7 +66,7 @@ void ACubeDMIClass::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 		float ranNumZ = UKismetMathLibrary::RandomFloatInRange(0.f, 1.f);
 
 		// assigns a 4vector with the RGB floats, plus 1 for alpha
-		FVector4 randColor = FVector4(ranNumX, ranNumY, ranNumZ, 1.f);
+		FLinearColor randColor = FLinearColor(ranNumX, ranNumY, ranNumZ, 1.f);
 
 		// if dmi is instantiated
 		if (dmiMat)
@@ -74,8 +75,13 @@ void ACubeDMIClass::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 			dmiMat->SetVectorParameterValue("Color", randColor);
 			// sets the parameter "Darkness" to the X float
 			dmiMat->SetScalarParameterValue("Darkness", ranNumX);
-
 			// Note: these names correspond to the parameter names within the material
+
+			if (colorP)
+			{
+				UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, OtherComp, NAME_None, FVector(0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+				particleComp->SetNiagaraVariableLinearColor(FString("RandColor"), randColor);
+			}
 		}
 	}
 }
