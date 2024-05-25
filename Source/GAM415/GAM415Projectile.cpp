@@ -72,15 +72,13 @@ void AGAM415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	if (OtherActor != nullptr)
 	{
-		/*
 		if (colorP)
 		{
 			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
-			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), projColor);
 			ballMesh->DestroyComponent();
 			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
 		}
-		*/
 		// float that selects which decal to use
 		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
