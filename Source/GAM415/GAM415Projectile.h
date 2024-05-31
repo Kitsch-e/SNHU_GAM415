@@ -45,7 +45,7 @@ class AGAM415Projectile : public AActor
 
 	// property for the niagara particles
 	UPROPERTY(EditAnywhere)
-	UNiagaraSystem* colorP;
+	UNiagaraSystem* particleColor;
 
 public:
 	AGAM415Projectile();
