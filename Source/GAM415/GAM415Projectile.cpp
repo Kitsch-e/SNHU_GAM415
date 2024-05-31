@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "PerlinProcTerrian.h"
 
 AGAM415Projectile::AGAM415Projectile() 
 {
@@ -89,5 +90,15 @@ void AGAM415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 		// uses the same random color that the projectile uses
 		MatInstance->SetVectorParameterValue("Color", projColor);
 		MatInstance->SetScalarParameterValue("Frame", frameNum);
+
+		// cast to the procedural terrian
+		APerlinProcTerrian* procTerrain = Cast<APerlinProcTerrian>(OtherActor);
+
+		// if cast is successful
+		if (procTerrain)
+		{
+			// alter the impact point
+			procTerrain->AlterMesh(Hit.ImpactPoint);
+		}
 	}
 }
