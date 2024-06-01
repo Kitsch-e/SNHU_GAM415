@@ -77,6 +77,7 @@ private:
 	TArray<FVector> Normals;
 	TArray<FColor> UpVertexColors;
 
+	// unused, here to section the terrain; currently a single object
 	int sectionID = 0;
 
 	// creates the vertices, called before CreateTriangles()

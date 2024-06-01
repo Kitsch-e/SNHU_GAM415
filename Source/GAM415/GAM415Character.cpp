@@ -10,6 +10,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include "DrawDebugHelpers.h"  // draws raytrace
+#include "PerlinProcTerrian.h"  // raytrace alters procedrual terrain
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -73,13 +75,15 @@ void AGAM415Character::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AGAM415Character::Look);
+
+		// Raytrace
+		EnhancedInputComponent->BindAction(RaytraceAction, ETriggerEvent::Triggered, this, &AGAM415Character::RayTrace);
 	}
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
 }
-
 
 void AGAM415Character::Move(const FInputActionValue& Value)
 {
@@ -115,4 +119,40 @@ void AGAM415Character::SetHasRifle(bool bNewHasRifle)
 bool AGAM415Character::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void AGAM415Character::RayTrace()
+{
+	FHitResult traceHit;
+
+	// begins trace at camera location
+	FVector traceStart = FirstPersonCameraComponent->GetComponentLocation();
+
+	FVector ForwardVector = FirstPersonCameraComponent->GetForwardVector();
+	FVector traceEnd = ((ForwardVector * 1000.f) + traceStart);
+	FCollisionQueryParams collisionParams;
+
+	// draws raytrace
+	DrawDebugLine(GetWorld(), traceStart, traceEnd, FColor::Yellow, false, 1, 0, 1);
+
+	if (GetWorld()->LineTraceSingleByChannel(traceHit, traceStart, traceEnd, ECC_Visibility, collisionParams))
+	{
+		if (traceHit.bBlockingHit)
+		{
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Raytrace Successful")));
+			}
+		}
+	}
+
+	// cast to the procedural terrian
+	APerlinProcTerrian* procTerrain = Cast<APerlinProcTerrian>(traceHit.GetActor());  // argument is actor that is hit
+
+	// if cast is successful
+	if (procTerrain)
+	{
+		// alter the impact point
+		procTerrain->AlterMesh(traceHit.ImpactPoint);
+	}
 }

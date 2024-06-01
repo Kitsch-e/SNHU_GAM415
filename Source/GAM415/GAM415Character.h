@@ -40,6 +40,10 @@ class AGAM415Character : public ACharacter
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
+
+	// Raytrace Input Action
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RaytraceAction;
 	
 public:
 	AGAM415Character();
@@ -64,6 +68,10 @@ public:
 	/** Getter for the bool */
 	UFUNCTION(BlueprintCallable, Category = Weapon)
 	bool GetHasRifle();
+
+	// function that creates a raytrace
+	//UFUNCTION(EditAnywhere)
+	void RayTrace();
 
 protected:
 	/** Called for movement input */
