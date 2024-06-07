@@ -8,6 +8,18 @@ public class GAM415 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "Niagara", "ProceduralMeshComponent"});
+		PublicDependencyModuleNames.AddRange(new string[] {
+			"Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
+			"EnhancedInput",
+			"Niagara",
+			"ProceduralMeshComponent",
+			// 3 below used for AI systems
+			"AIModule",
+			"GameplayTasks",
+			"NavigationSystem"
+		});
 	}
 }

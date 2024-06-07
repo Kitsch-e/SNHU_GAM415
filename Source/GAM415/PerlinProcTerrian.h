@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+//#include "KismetProceduralMeshLibrary.h"  // needed to instantiate Tangents
 #include "PerlinProcTerrian.generated.h"
 
 class UProceduralMeshComponent;
@@ -75,14 +76,14 @@ private:
 	TArray<FVector2D> UV0;
 	// array storing the normal data of the triangles
 	TArray<FVector> Normals;
+	// array storing the up vertex colors
 	TArray<FColor> UpVertexColors;
 
-	// unused, here to section the terrain; currently a single object
+	// unused, here to section the terrain; currently a single objects
 	int sectionID = 0;
 
 	// creates the vertices, called before CreateTriangles()
 	void CreateVertices();
 	// creates the triangles, uses data created from CreateVertices()
 	void CreateTriangles();
-
 };

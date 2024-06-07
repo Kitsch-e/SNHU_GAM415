@@ -13,6 +13,9 @@ APerlinProcTerrian::APerlinProcTerrian()
 
 	ProcMesh = CreateDefaultSubobject<UProceduralMeshComponent>("Procedural Mesh");
 	RootComponent = ProcMesh;
+
+	// array storing the tangent data for the vertices
+	//TArray<FProcMeshTangent> Tangents;
 }
 
 // Called when the game starts or when spawned
@@ -20,10 +23,15 @@ void APerlinProcTerrian::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// array storing the tangent data for the vertices
+	TArray<FProcMeshTangent> Tangents;
+
 	CreateVertices();
 	CreateTriangles();
+	// generates normal and tangent information
+	UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV0, Normals, Tangents);
 	// generates a mesh section
-	ProcMesh->CreateMeshSection(sectionID, Vertices, Triangles, Normals, UV0, UpVertexColors, TArray<FProcMeshTangent>(), true);
+	ProcMesh->CreateMeshSection(sectionID, Vertices, Triangles, Normals, UV0, UpVertexColors, Tangents, true);
 	ProcMesh->SetMaterial(0, terrainMat);
 }
 
@@ -66,6 +74,7 @@ void APerlinProcTerrian::CreateVertices()
 			// adding data to vertices and UV
 			Vertices.Add(FVector(X * Scale, Y * Scale, Z));
 			UV0.Add(FVector2D(X * UVScale, Y * UVScale));
+			//Normals.Add(VectorNormalize(FVector(X * Scale, Y * Scale, Z)));
 		}
 	}
 }
@@ -83,9 +92,12 @@ void APerlinProcTerrian::CreateTriangles()
 			Triangles.Add(Vertex);
 			Triangles.Add(Vertex + 1);
 			Triangles.Add(Vertex + YSize + 1);
+			//Normals.Add(VectorNormalize(FVector(Vertex, Vertex + 1, Vertex + YSize + 1)));  // normal data for triangle
+
 			Triangles.Add(Vertex + 1);
 			Triangles.Add(Vertex + YSize + 2);
 			Triangles.Add(Vertex + YSize + 1);
+			//Normals.Add(VectorNormalize(FVector(Vertex + 1, Vertex + YSize + 2, Vertex + YSize + 1)));  // normal data for triangle
 
 			Vertex++;
 		}
