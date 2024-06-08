@@ -52,7 +52,12 @@ protected:
 	virtual void BeginPlay();
 
 public:
-		
+	
+	// stores when the character is teleporting through portals
+	// prevents player getting stuck in a teleportation loop
+	UPROPERTY(EditAnywhere)
+	bool isTeleporting;
+
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
