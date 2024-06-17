@@ -19,11 +19,11 @@ public:
 	// Sets default values for this actor's properties
 	APerlinProcTerrian();
 
-	// x-width of our procedural terrian
+	// x-width of our procedural terrain
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0))
 	int XSize = 0;
 
-	// y-height of our procedural terrian
+	// y-height of our procedural terrain
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0))
 	int YSize = 0;
 
@@ -31,12 +31,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (ClampMin = 0))
 	float ZMultiplier = 1.0f;
 
+	// controls the scale of the noise for the perlin noise
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0))
 	float NoiseScale = 1.0f;
 
+	// controls the scale of the procederal terrain
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0.000001))
 	float Scale = 0;
 
+	// scale of the UVs applied to the procedural terrain
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0.000001))
 	float UVScale = 0;
 
@@ -65,6 +68,7 @@ public:
 	void AlterMesh(FVector impactPoint);
 
 private:
+	// mesh object storing the procedural terrain
 	UProceduralMeshComponent* ProcMesh;
 
 	// array storing x, y, z positions of triangle vertices

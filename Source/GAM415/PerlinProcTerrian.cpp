@@ -26,12 +26,15 @@ void APerlinProcTerrian::BeginPlay()
 	// array storing the tangent data for the vertices
 	TArray<FProcMeshTangent> Tangents;
 
+	// creates vertices and triangles
+	// done only once at the instantiation of the class
 	CreateVertices();
 	CreateTriangles();
 	// generates normal and tangent information
 	UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV0, Normals, Tangents);
 	// generates a mesh section
 	ProcMesh->CreateMeshSection(sectionID, Vertices, Triangles, Normals, UV0, UpVertexColors, Tangents, true);
+	// applies the material to the terrain (material applied within the editor)
 	ProcMesh->SetMaterial(0, terrainMat);
 }
 
@@ -63,8 +66,10 @@ void APerlinProcTerrian::AlterMesh(FVector impactPoint)
 
 void APerlinProcTerrian::CreateVertices()
 {
+	// generates the rows of the mesh
 	for (int X = 0; X <= XSize; X++)
 	{
+		// generates the columns of the mesh
 		for (int Y = 0; Y <= YSize; Y++)
 		{
 			// creating Z using X and Y values
@@ -74,7 +79,6 @@ void APerlinProcTerrian::CreateVertices()
 			// adding data to vertices and UV
 			Vertices.Add(FVector(X * Scale, Y * Scale, Z));
 			UV0.Add(FVector2D(X * UVScale, Y * UVScale));
-			//Normals.Add(VectorNormalize(FVector(X * Scale, Y * Scale, Z)));
 		}
 	}
 }
@@ -84,8 +88,10 @@ void APerlinProcTerrian::CreateTriangles()
 	// local variable used to generate triangle data
 	int Vertex = 0;
 
+	// generating rows of the mesh
 	for (int X = 0; X < XSize; X++)
 	{
+		// generating columns of the mesh
 		for (int Y = 0; Y < YSize; Y++)
 		{
 			// adds triangle vertex points based on the Y - value

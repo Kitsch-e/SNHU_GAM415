@@ -73,11 +73,16 @@ void AGAM415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 
 	if (OtherActor != nullptr)
 	{
+		// particle's color set in editor
 		if (particleColor)
 		{
+			// create a Niagara component at the location the projectile landed
 			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(particleColor, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+			// apply the random color to the particles
 			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), projColor);
+			// destroy the mesh representing the projectile
 			ballMesh->DestroyComponent();
+			// stop all collisions
 			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
 		}
 		// float that selects which decal to use
